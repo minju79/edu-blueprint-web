@@ -189,7 +189,7 @@ const ProofSystem = () => {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold">핵심 규칙</h2>
+        <h2 id="core-rules" className="text-2xl font-bold">핵심 규칙</h2>
         <div className="mt-4 space-y-2">
           {[
             "강한 증빙 2개 이상을 상담 CTA 근처에 배치해야 한다",
