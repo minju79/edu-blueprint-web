@@ -81,7 +81,8 @@ export const useSeo = ({ title, description, path, noindex }: SeoInput) => {
       canonical.rel = "canonical";
       document.head.appendChild(canonical);
     }
-    canonical.href = ogUrl;
+    // 404 경로는 존재하지 않으므로 canonical을 홈으로 설정
+    canonical.href = noindex ? `${SITE_URL}/` : ogUrl;
 
     // --- JSON-LD: driven by jsonLdType array ---
     const types = config.jsonLdType || [];

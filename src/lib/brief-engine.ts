@@ -366,6 +366,11 @@ export const buildImplementationRules = (brief: ClientBriefData) => {
       brief.branchType === "다지점" ? "지점 선택 UI를 홈 상단에 배치" : "단일 지점 주소/전화를 헤더에 고정",
       brief.tuitionPublic !== "공개" ? "수강료 비공개 시 '개별 상담 안내' 사유 UX 제공" : "수강료 테이블을 과정 상세에 포함",
       ...proofFallbacks.map(f => `⚠️ ${f.condition}: ${f.alternatives[0]}`),
+      // Proof 상태별 구체적 제작 지침
+      ...(!brief.hasReviews ? ["후기 부족: 체험수업 CTA를 홈 히어로에 추가하고 FAQ를 강화"] : []),
+      ...(!brief.hasTeacherProfile ? ["강사진 미확보: 교육 철학/운영 방식 섹션을 강사진 대신 전면 배치"] : []),
+      ...(!brief.hasResults ? ["성과 미보유: 학습 관리 프로세스 인포그래픽을 성과 섹션 대체로 배치"] : []),
+      ...(!brief.hasFacilityAssets ? ["시설 사진 없음: 지도+운영시간+주차 안내 텍스트 블록으로 대체"] : []),
     ],
   };
 };
