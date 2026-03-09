@@ -80,7 +80,7 @@ describe("brief-engine", () => {
   });
 
   it("builds implementation rules with enriched focus types", () => {
-    const rules = buildImplementationRules({ ...defaultBriefData, hasTeacherProfile: true, hasResults: true, hasReviews: true, corePrograms: "매우 긴 프로그램 설명이 들어갑니다", consultingFeatures: ["상담", "체험수업"] });
+    const rules = buildImplementationRules({ ...defaultBriefData, hasTeacherProfile: true, hasResults: true, hasReviews: true, corePrograms: "매우 긴 프로그램 설명이 들어갑니다 충분히 길게 작성해야 합니다", consultingFeatures: ["상담", "체험수업"] });
     expect(rules.focusTypes).toContain("강사진 중심형");
     expect(rules.focusTypes).toContain("성과 중심형");
     expect(rules.focusTypes).toContain("상담 강화형");
