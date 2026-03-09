@@ -170,7 +170,7 @@ const ProofSystem = () => {
       <section><CopyBlock title="배치 규칙 매트릭스" content={placementMatrix} /></section>
 
       <section>
-        <h2 className="text-2xl font-bold">증빙 상태 체계</h2>
+        <h2 id="proof-status-system" className="text-2xl font-bold">증빙 상태 체계</h2>
         <div className="mt-4 grid gap-4 md:grid-cols-4">
           {(["보유", "부족", "비공개", "검토 필요"] as const).map(status => (
             <Card key={status}>
