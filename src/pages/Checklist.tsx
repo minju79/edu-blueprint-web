@@ -230,7 +230,7 @@ const Checklist = () => {
         return (
           <section key={cl.category}>
             <div className="flex items-center gap-2 mb-2">
-              <h2 className="text-xl font-bold">{cl.category}</h2>
+              <h2 id={`checklist-${cl.category.replace(/\s+/g, '-')}`} className="text-xl font-bold">{cl.category}</h2>
               <BadgeTag type={cl.badge} />
               <span className="ml-auto text-sm text-muted-foreground">{catChecked}/{cl.items.length}</span>
             </div>
