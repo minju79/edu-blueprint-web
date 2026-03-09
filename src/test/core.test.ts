@@ -57,7 +57,7 @@ describe("brief-engine", () => {
   });
 
   it("infers 과정탐색형 for detailed programs", () => {
-    const brief = { ...defaultBriefData, corePrograms: "매우 긴 프로그램 설명입니다" };
+    const brief = { ...defaultBriefData, corePrograms: "매우 긴 프로그램 설명이 들어갑니다 충분히 길게" };
     expect(inferSiteType(brief)).toBe("과정탐색형");
   });
 
