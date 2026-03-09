@@ -83,7 +83,7 @@ const ProofSystem = () => {
 
       {hasBrief && (
         <section>
-          <h2 className="text-2xl font-bold">브리프 기반 자산 상태</h2>
+          <h2 id="brief-asset-status" className="text-2xl font-bold">브리프 기반 자산 상태</h2>
           <p className="mt-1 text-sm text-muted-foreground">현재 브리프 데이터 기준으로 각 증빙 요소의 보유 상태를 표시합니다.</p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {proofStatuses.map((ps) => (
