@@ -46,7 +46,7 @@ const IndustryOverview = () => (
 
     {/* 사이트 유형 분류 */}
     <section>
-      <h2 className="text-2xl font-bold">사이트 유형 분류</h2>
+      <h2 id="site-types" className="text-2xl font-bold">사이트 유형 분류</h2>
       <div className="mt-4 overflow-x-auto">
         <table className="w-full text-sm">
           <thead className="border-b bg-muted">
