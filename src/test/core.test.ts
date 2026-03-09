@@ -57,7 +57,7 @@ describe("brief-engine", () => {
   });
 
   it("infers 과정탐색형 for detailed programs", () => {
-    const brief = { ...defaultBriefData, corePrograms: "매우 긴 프로그램 설명이 들어갑니다 충분히 길게" };
+    const brief = { ...defaultBriefData, corePrograms: "매우 긴 프로그램 설명이 들어갑니다 충분히 길게 작성해야 합니다" };
     expect(inferSiteType(brief)).toBe("과정탐색형");
   });
 
@@ -80,7 +80,7 @@ describe("brief-engine", () => {
   });
 
   it("builds implementation rules with enriched focus types", () => {
-    const rules = buildImplementationRules({ ...defaultBriefData, hasTeacherProfile: true, hasResults: true, hasReviews: true, corePrograms: "매우 긴 프로그램 설명이 들어갑니다", consultingFeatures: ["상담", "체험수업"] });
+    const rules = buildImplementationRules({ ...defaultBriefData, hasTeacherProfile: true, hasResults: true, hasReviews: true, corePrograms: "매우 긴 프로그램 설명이 들어갑니다 충분히 길게 작성해야 합니다", consultingFeatures: ["상담", "체험수업"] });
     expect(rules.focusTypes).toContain("강사진 중심형");
     expect(rules.focusTypes).toContain("성과 중심형");
     expect(rules.focusTypes).toContain("상담 강화형");
@@ -140,6 +140,60 @@ describe("brief-engine", () => {
     expect(rules.budget.minimal[0].reason).toBeDefined();
     expect(rules.budget.minimal[0].reason.length).toBeGreaterThan(0);
   });
+
+  it("inferSiteType priority: adult > multi-branch", () => {
+    const brief = { ...defaultBriefData, educationSubtype: "성인어학" as const, branchType: "다지점" as const };
+    expect(inferSiteType(brief)).toBe("성인교육형");
+  });
+
+  it("inferSiteType priority: multi-branch > strong proof", () => {
+    const brief = { ...defaultBriefData, branchType: "다지점" as const, hasResults: true, hasTeacherProfile: true, hasReviews: true };
+    expect(inferSiteType(brief)).toBe("지점형");
+  });
+
+  it("inferSiteType returns 상담전환형 for multiple channels", () => {
+    const brief = { ...defaultBriefData, consultingChannels: ["전화", "카카오"] };
+    expect(inferSiteType(brief)).toBe("상담전환형");
+  });
+
+  it("inferSiteType returns 하이브리드형 for default brief", () => {
+    expect(inferSiteType(defaultBriefData)).toBe("하이브리드형");
+  });
+
+  it("getProofFallbacks returns empty when all proofs present", () => {
+    const statuses = getProofStatuses({ ...defaultBriefData, hasTeacherProfile: true, hasResults: true, hasReviews: true, hasFacilityAssets: true, corePrograms: "충분히 긴 프로그램", targetAges: ["중학생"], consultingFeatures: ["상담"] });
+    const fallbacks = getProofFallbacks(statuses);
+    expect(fallbacks.length).toBe(0);
+  });
+
+  it("calculateBriefScore percent matches completed ratio", () => {
+    const partial = { ...defaultBriefData, academyName: "테스트", region: "서울" };
+    const score = calculateBriefScore(partial);
+    expect(score.percent).toBe(Math.round((score.completed / score.total) * 100));
+  });
+
+  it("budget standard includes all minimal items", () => {
+    const rules = buildImplementationRules(defaultBriefData);
+    const minNames = rules.budget.minimal.map((i: { name: string }) => i.name);
+    const stdNames = rules.budget.standard.map((i: { name: string }) => i.name);
+    for (const name of minNames) {
+      expect(stdNames).toContain(name);
+    }
+  });
+
+  it("instantGuide includes proof-specific guidance when assets lacking", () => {
+    const rules = buildImplementationRules(defaultBriefData);
+    expect(rules.instantGuide.some((g: string) => g.includes("후기 부족"))).toBe(true);
+    expect(rules.instantGuide.some((g: string) => g.includes("강사진 미확보"))).toBe(true);
+  });
+
+  it("serializeBlueprintBlock includes conditional and forbidden sections", () => {
+    const blocks = buildBlueprintBlocks({ ...defaultBriefData, academyName: "테스트" });
+    const homeBlock = blocks[0];
+    const text = serializeBlueprintBlock(homeBlock);
+    expect(text).toContain("조건부 블록");
+    expect(text).toContain("금지 블록");
+  });
 });
 
 describe("navigation & seo", () => {
@@ -183,4 +237,19 @@ describe("navigation & seo", () => {
     expect(faqJsonLd["@type"]).toBe("FAQPage");
     expect(faqJsonLd.mainEntity[0]["@type"]).toBe("Question");
   });
-});
+  });
+
+  it("all seoConfig entries have jsonLdType array", async () => {
+    const { seoConfig } = await import("@/data/seo-config");
+    for (const [route, config] of Object.entries(seoConfig)) {
+      expect(Array.isArray(config.jsonLdType)).toBe(true);
+    }
+  });
+
+  it("noindex routes have follow policy", async () => {
+    const { seoConfig } = await import("@/data/seo-config");
+    const noindexRoutes = ["/client-brief", "/site-blueprint", "/implementation-rules"];
+    for (const route of noindexRoutes) {
+      expect(seoConfig[route].robots).toBe("noindex,follow");
+    }
+  });

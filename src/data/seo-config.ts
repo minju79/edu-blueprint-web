@@ -84,22 +84,23 @@ export const seoConfig: Record<string, RouteSeoConfig> = {
       { question: "교육 사이트 런칭 전 필수 점검 항목은?", answer: "대상 적합성, CTA 동작, 모바일 하단 고정바, 메타/OG, 개인정보 동의 폼, 성과 근거 표기를 반드시 확인합니다." },
     ],
   },
+  // --- noindex 정책: 내부 도구 페이지는 검색 노출 차단, follow는 유지하여 크롤러 탐색 허용 ---
   "/client-brief": {
     title: "고객사 브리프 도구",
     description: "교육 고객사 정보를 자동 저장하고 JSON으로 내보내는 브리프 수집/검증 도구",
-    robots: "noindex,follow",
+    robots: "noindex,follow", // 내부 도구: 고객사별 데이터 입력용
     jsonLdType: ["WebPage"],
   },
   "/site-blueprint": {
     title: "공개용 사이트 청사진 생성기",
     description: "Client Brief 기반으로 사이트 유형, 페이지 구조, CTA, SEO 포인트를 자동 제안하는 생성기",
-    robots: "noindex,follow",
+    robots: "noindex,follow", // 내부 도구: 브리프 기반 자동 생성 결과
     jsonLdType: ["WebPage"],
   },
   "/implementation-rules": {
     title: "브리프 기반 구현 규칙 엔진",
     description: "브리프 상태에 따라 최소/표준/풀 구성과 유지/제거 블록을 동적으로 판단하는 규칙 엔진",
-    robots: "noindex,follow",
+    robots: "noindex,follow", // 내부 도구: 제작 규칙 동적 생성
     jsonLdType: ["WebPage"],
   },
 };

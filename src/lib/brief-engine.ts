@@ -38,7 +38,7 @@ export const inferSiteType = (brief: ClientBriefData): SiteType => {
   if (isAdult) return "성인교육형";
   if (brief.branchType === "다지점") return "지점형";
   if (hasStrongProof) return "성과신뢰형";
-  if (brief.corePrograms.length > 20) return "과정탐색형";
+  if (brief.corePrograms.length > 30) return "과정탐색형";
   if (brief.consultingChannels.length >= 2) return "상담전환형";
   return "하이브리드형";
 };
@@ -48,7 +48,7 @@ export const getSiteTypeReason = (brief: ClientBriefData): string => {
   if (isAdult) return `교육 유형이 '${brief.educationSubtype}'이므로 성인교육형으로 판별`;
   if (brief.branchType === "다지점") return "다지점 운영이므로 지점형으로 판별";
   if (brief.hasResults && brief.hasTeacherProfile && brief.hasReviews) return "성과+강사진+후기 모두 보유하므로 성과신뢰형으로 판별";
-  if (brief.corePrograms.length > 20) return "핵심 프로그램 설명이 상세하므로 과정탐색형으로 판별";
+  if (brief.corePrograms.length > 30) return "핵심 프로그램 설명이 상세하므로 과정탐색형으로 판별";
   if (brief.consultingChannels.length >= 2) return `상담 채널 ${brief.consultingChannels.length}개 운영으로 상담전환형으로 판별`;
   return "기본 조건으로 하이브리드형으로 판별";
 };
@@ -301,7 +301,7 @@ export const buildImplementationRules = (brief: ClientBriefData) => {
 
   // Site focus types - refined
   const focusTypes: string[] = [];
-  if (brief.corePrograms.length > 20) focusTypes.push("과정 중심형");
+  if (brief.corePrograms.length > 30) focusTypes.push("과정 중심형");
   if (brief.hasTeacherProfile) focusTypes.push("강사진 중심형");
   if (brief.hasResults) focusTypes.push("성과 중심형");
   if (brief.branchType === "다지점") focusTypes.push("지점 중심형");
@@ -366,6 +366,11 @@ export const buildImplementationRules = (brief: ClientBriefData) => {
       brief.branchType === "다지점" ? "지점 선택 UI를 홈 상단에 배치" : "단일 지점 주소/전화를 헤더에 고정",
       brief.tuitionPublic !== "공개" ? "수강료 비공개 시 '개별 상담 안내' 사유 UX 제공" : "수강료 테이블을 과정 상세에 포함",
       ...proofFallbacks.map(f => `⚠️ ${f.condition}: ${f.alternatives[0]}`),
+      // Proof 상태별 구체적 제작 지침
+      ...(!brief.hasReviews ? ["후기 부족: 체험수업 CTA를 홈 히어로에 추가하고 FAQ를 강화"] : []),
+      ...(!brief.hasTeacherProfile ? ["강사진 미확보: 교육 철학/운영 방식 섹션을 강사진 대신 전면 배치"] : []),
+      ...(!brief.hasResults ? ["성과 미보유: 학습 관리 프로세스 인포그래픽을 성과 섹션 대체로 배치"] : []),
+      ...(!brief.hasFacilityAssets ? ["시설 사진 없음: 지도+운영시간+주차 안내 텍스트 블록으로 대체"] : []),
     ],
   };
 };
