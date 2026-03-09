@@ -237,4 +237,19 @@ describe("navigation & seo", () => {
     expect(faqJsonLd["@type"]).toBe("FAQPage");
     expect(faqJsonLd.mainEntity[0]["@type"]).toBe("Question");
   });
-});
+  });
+
+  it("all seoConfig entries have jsonLdType array", async () => {
+    const { seoConfig } = await import("@/data/seo-config");
+    for (const [route, config] of Object.entries(seoConfig)) {
+      expect(Array.isArray(config.jsonLdType)).toBe(true);
+    }
+  });
+
+  it("noindex routes have follow policy", async () => {
+    const { seoConfig } = await import("@/data/seo-config");
+    const noindexRoutes = ["/client-brief", "/site-blueprint", "/implementation-rules"];
+    for (const route of noindexRoutes) {
+      expect(seoConfig[route].robots).toBe("noindex,follow");
+    }
+  });
