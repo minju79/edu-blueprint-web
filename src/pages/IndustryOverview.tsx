@@ -28,7 +28,7 @@ const IndustryOverview = () => (
 
     {/* 일반 서비스업과의 차이 */}
     <section>
-      <h2 className="text-2xl font-bold">교육 홈페이지가 다른 이유</h2>
+      <h2 id="industry-diff" className="text-2xl font-bold">교육 홈페이지가 다른 이유</h2>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         {[
           { title: "신뢰 우선", body: "제품 판매와 달리 '내 아이/나에게 맞는지'를 판단해야 하므로 강사진·운영·성과 증빙이 핵심입니다." },
