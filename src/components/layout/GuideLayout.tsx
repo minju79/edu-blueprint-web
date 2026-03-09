@@ -37,7 +37,7 @@ const AppSidebar = () => {
       </div>
       <SidebarContent>
         <ScrollArea className="flex-1">
-          <SidebarGroup defaultOpen>
+          <SidebarGroup>
             <SidebarGroupLabel>가이드</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
