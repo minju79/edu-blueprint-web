@@ -60,6 +60,14 @@ const ProofSystem = () => {
       <PageHeader
         title="신뢰/성과 증빙 시스템"
         description="교육 사이트에서 신뢰를 구축하는 10가지 증빙 요소의 운영 기준과 배치 규칙을 제공합니다."
+        tocItems={[
+          ...(hasBrief ? [{ id: "brief-asset-status", label: "브리프 기반 자산 상태" }] : []),
+          { id: "proof-details", label: "증빙 요소 상세" },
+          { id: "proof-comparison", label: "증빙 강도 비교" },
+          { id: "placement-rules", label: "배치 규칙 매트릭스" },
+          { id: "proof-status-system", label: "증빙 상태 체계" },
+          { id: "core-rules", label: "핵심 규칙" },
+        ]}
         summaryCards={[
           { title: "강한 증빙", body: "강사진, 커리큘럼, 대상, 성과, 후기 (5개)" },
           { title: "보조 증빙", body: "시설, 운영, 상담, 교재, FAQ (5개)" },
