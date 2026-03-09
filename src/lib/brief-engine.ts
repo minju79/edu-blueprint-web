@@ -48,7 +48,7 @@ export const getSiteTypeReason = (brief: ClientBriefData): string => {
   if (isAdult) return `교육 유형이 '${brief.educationSubtype}'이므로 성인교육형으로 판별`;
   if (brief.branchType === "다지점") return "다지점 운영이므로 지점형으로 판별";
   if (brief.hasResults && brief.hasTeacherProfile && brief.hasReviews) return "성과+강사진+후기 모두 보유하므로 성과신뢰형으로 판별";
-  if (brief.corePrograms.length > 20) return "핵심 프로그램 설명이 상세하므로 과정탐색형으로 판별";
+  if (brief.corePrograms.length > 30) return "핵심 프로그램 설명이 상세하므로 과정탐색형으로 판별";
   if (brief.consultingChannels.length >= 2) return `상담 채널 ${brief.consultingChannels.length}개 운영으로 상담전환형으로 판별`;
   return "기본 조건으로 하이브리드형으로 판별";
 };
