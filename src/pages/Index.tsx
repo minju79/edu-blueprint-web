@@ -30,7 +30,7 @@ const Index = () => {
           <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
             <Link to="/client-brief">브리프 작성 시작</Link>
           </Button>
-          <Button asChild variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+          <Button asChild variant="outline" size="lg" className="border-primary-foreground/30 text-accent hover:bg-primary-foreground/10">
             <Link to="/industry-overview">업종 특성 보기</Link>
           </Button>
         </div>
